@@ -9,7 +9,6 @@ import (
 	"path"
 	"runtime"
 	"strconv"
-	"syscall"
 )
 
 func StackTrace() string {
@@ -87,15 +86,15 @@ type Color struct {
 	white        int // 白色 15
 }
 
-func ColorPrint(s string, i int) { //设置终端字体颜色
-	kernel32 := syscall.NewLazyDLL("kernel32.dll")
-	proc := kernel32.NewProc("SetConsoleTextAttribute")
-	handle, _, _ := proc.Call(uintptr(syscall.Stdout), uintptr(i))
-	fmt.Print(s)
-	handle, _, _ = proc.Call(uintptr(syscall.Stdout), uintptr(7))
-	CloseHandle := kernel32.NewProc("CloseHandle")
-	CloseHandle.Call(handle)
-}
+//func ColorPrint(s string, i int) { //设置终端字体颜色
+//	kernel32 := syscall.NewLazyDLL("kernel32.dll")
+//	proc := kernel32.NewProc("SetConsoleTextAttribute")
+//	handle, _, _ := proc.Call(uintptr(syscall.Stdout), uintptr(i))
+//	fmt.Print(s)
+//	handle, _, _ = proc.Call(uintptr(syscall.Stdout), uintptr(7))
+//	CloseHandle := kernel32.NewProc("CloseHandle")
+//	CloseHandle.Call(handle)
+//}
 
 var ClearScreen = func() {
 	//执行clear指令清除控制台
