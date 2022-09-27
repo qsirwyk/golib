@@ -7,7 +7,14 @@ import (
 )
 
 func main() {
+	testStackTrace()
+}
+
+func testStackTrace()  {
 	fmt.Println(qlib.StackTrace())
+}
+
+func testColor() {
 	// quick use package func
 	color.Redp("Simple to use color")
 	color.Redln("Simple to use color")
@@ -54,4 +61,6 @@ func main() {
 	// tips message
 	color.Info.Tips("tips style message")
 	color.Warn.Tips("tips style message")
+	for {
+	}
 }
