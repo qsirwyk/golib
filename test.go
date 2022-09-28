@@ -1,17 +1,33 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gookit/color"
-	"github.com/qsirwyk/golib/qlib"
+	"github.com/qsirwyk/golib/util"
+	"log"
 )
 
-func main() {
-	testStackTrace()
+func init() {
+	//log.SetFlags(log.Lshortfile | log.Ldate | log.Ltime)
+	//log.SetPrefix("[GoLib] ")
 }
 
-func testStackTrace()  {
-	fmt.Println(qlib.StackTrace())
+func main() {
+	//testColor()
+	//testTrace()
+	//util.BlockMain()
+	//testErr()
+}
+
+func testErr() {
+	util.CheckErrf(errors.New("test"), "%d|%d", 123, 456)
+	util.CheckErr(errors.New("err"))
+}
+
+func testTrace() {
+	util.Trace("util.trace", 1)
+	log.Printf("%s test2", "func")
 }
 
 func testColor() {
@@ -61,6 +77,4 @@ func testColor() {
 	// tips message
 	color.Info.Tips("tips style message")
 	color.Warn.Tips("tips style message")
-	for {
-	}
 }
