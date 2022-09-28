@@ -95,3 +95,23 @@ func Trace(str string, skip int) {
 	//yellow := color.FgYellow.Render
 	fmt.Printf(green("[%s | %s:%d | %s] ")+red("%v\n"), time.Now().Format("2006-01-02 15:04:05"), path.Base(file), line, runtime.FuncForPC(funcName).Name(), str)
 }
+
+func ClearScreen() {
+	clear := make(map[string]func())
+	clear["linux"] = func() {
+		cmd := exec.Command("clear") //Linux example, its tested
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	}
+	clear["windows"] = func() {
+		cmd := exec.Command("cmd", "/c", "cls")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	}
+	cls, ok := clear[runtime.GOOS]
+	if ok {
+		cls()
+	} else {
+		Trace("此终端不支持清屏", 1)
+	}
+}

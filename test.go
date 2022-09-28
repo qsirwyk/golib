@@ -6,6 +6,7 @@ import (
 	"github.com/gookit/color"
 	"github.com/qsirwyk/golib/util"
 	"log"
+	"time"
 )
 
 func init() {
@@ -18,6 +19,14 @@ func main() {
 	//testTrace()
 	//util.BlockMain()
 	//testErr()
+	testClear()
+}
+
+func testClear() {
+	fmt.Println("I will clean the screen in 2 seconds!")
+	time.Sleep(2 * time.Second)
+	util.ClearScreen()
+	fmt.Println("I'm alone...")
 }
 
 func testErr() {
