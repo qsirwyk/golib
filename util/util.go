@@ -103,6 +103,11 @@ func ClearScreen() {
 		cmd.Stdout = os.Stdout
 		cmd.Run()
 	}
+	clear["darwin"] = func() {
+		cmd := exec.Command("clear") //Linux example, its tested
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	}
 	clear["windows"] = func() {
 		cmd := exec.Command("cmd", "/c", "cls")
 		cmd.Stdout = os.Stdout
@@ -112,6 +117,6 @@ func ClearScreen() {
 	if ok {
 		cls()
 	} else {
-		Trace("此终端不支持清屏", 1)
+		Trace("此终端不支持清屏:"+runtime.GOOS, 2)
 	}
 }
