@@ -63,7 +63,7 @@ func CheckExitErrf(err error, str string, args ...interface{}) {
 	if err != nil {
 		red := color.FgRed.Render
 		green := color.FgGreen.Render
-		log.SetPrefix("[CheckExitErr] ")
+		log.SetPrefix("[CheckExitErrf] ")
 		log.Printf(green(str)+"\n"+red(err.Error()), args...)
 		log.SetPrefix("[Util.Log] ")
 		os.Exit(1)
