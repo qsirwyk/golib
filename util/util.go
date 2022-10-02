@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gookit/color"
 	"log"
+	"math/rand"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -119,4 +120,11 @@ func ClearScreen() {
 	} else {
 		Trace("此终端不支持清屏:"+runtime.GOOS, 2)
 	}
+}
+
+// 生成s,e之间的随机数
+func RndInt(s, e int) int {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	num := r.Intn(e-s+1) + s
+	return num
 }
