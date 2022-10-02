@@ -29,8 +29,17 @@ func BlockMain() {
 	<-c
 }
 
-// CheckErr 如果存在错误打印并退出
+// CheckErr 如果存在错误打印
 func CheckErr(err error) {
+	if err != nil {
+		//red := color.FgRed.Render
+		//log.Printf(red("%v"), err)
+		Trace(err.Error(), 2)
+	}
+}
+
+// CheckErr 如果存在错误打印并退出
+func CheckExitErr(err error) {
 	if err != nil {
 		//red := color.FgRed.Render
 		//log.Printf(red("%v"), err)
@@ -44,7 +53,20 @@ func CheckErrf(err error, str string, args ...interface{}) {
 	if err != nil {
 		red := color.FgRed.Render
 		green := color.FgGreen.Render
+		log.SetPrefix("[CheckErrf] ")
 		log.Printf(green(str)+"\n"+red(err.Error()), args...)
+		log.SetPrefix("[Util.Log] ")
+	}
+}
+
+// CheckErrf  如果存在错误打印并退出
+func CheckExitErrf(err error, str string, args ...interface{}) {
+	if err != nil {
+		red := color.FgRed.Render
+		green := color.FgGreen.Render
+		log.SetPrefix("[CheckExitErrf] ")
+		log.Printf(green(str)+"\n"+red(err.Error()), args...)
+		log.SetPrefix("[Util.Log] ")
 		os.Exit(1)
 	}
 }

@@ -18,8 +18,8 @@ func main() {
 	//testColor()
 	//testTrace()
 	//util.BlockMain()
-	//testErr()
-	testClear()
+	testErr()
+	//testClear()
 }
 
 func testClear() {
@@ -30,6 +30,8 @@ func testClear() {
 }
 
 func testErr() {
+	util.CheckErrf(errors.New("test"), "%d|%d", 123, 456)
+	util.CheckExitErr(errors.New("err"))
 	util.CheckErrf(errors.New("test"), "%d|%d", 123, 456)
 	util.CheckErr(errors.New("err"))
 }
