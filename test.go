@@ -22,6 +22,14 @@ func main() {
 	//testClear()
 }
 
+func testRc4() {
+
+}
+
+func rc4() {
+
+}
+
 func testClear() {
 	fmt.Println("I will clean the screen in 2 seconds!")
 	time.Sleep(2 * time.Second)

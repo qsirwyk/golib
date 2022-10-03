@@ -2,6 +2,7 @@ package util
 
 import (
 	"bytes"
+	"encoding/hex"
 	"fmt"
 	"github.com/gookit/color"
 	"log"
@@ -149,4 +150,52 @@ func RndInt(s, e int) int {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	num := r.Intn(e-s+1) + s
 	return num
+}
+
+func UnRc4(key, data string) string {
+	src := HexToBin(data)
+	S := make([]int, 256)
+	lenKey := len(key)
+	for i := 0; i < 256; i++ {
+		S[i] = i
+	}
+	j := 0
+	for i := 0; i < 256; i++ {
+		j = (j + S[i] + int(key[i%lenKey])) % 256
+		S[i], S[j] = S[j], S[i]
+	}
+	lenData := len(src)
+	var output []rune
+
+	for a, j, i := 0, 0, 0; i < lenData; i++ {
+		a = (a + 1) % 256
+		j = (j + S[a]) % 256
+		S[a], S[j] = S[j], S[a]
+		k := S[((S[a] + S[j]) % 256)]
+		output = append(output, rune(int(src[i])^k))
+	}
+	return string(output)
+}
+
+func HexToBin(str string) []byte {
+	src := []byte(str)
+	dst := make([]byte, hex.DecodedLen(len(src)))
+	hex.Decode(dst, src)
+	return dst
+}
+
+func HexToBin2(str string) []byte {
+	slen := len(str)
+	bHex := make([]byte, len(str)/2)
+	ii := 0
+	for i := 0; i < len(str); i = i + 2 {
+		if slen != 1 {
+			ss := string(str[i]) + string(str[i+1])
+			bt, _ := strconv.ParseInt(ss, 16, 32)
+			bHex[ii] = byte(bt)
+			ii = ii + 1
+			slen = slen - 2
+		}
+	}
+	return bHex
 }
