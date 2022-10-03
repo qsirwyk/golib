@@ -153,7 +153,7 @@ func RndInt(s, e int) int {
 }
 
 func UnRc4(key, data string) string {
-	src := HexToBin(data)
+	src := Hex2Bin(data)
 	S := make([]int, 256)
 	lenKey := len(key)
 	for i := 0; i < 256; i++ {
@@ -177,14 +177,14 @@ func UnRc4(key, data string) string {
 	return string(output)
 }
 
-func HexToBin(str string) []byte {
+func Hex2Bin(str string) []byte {
 	src := []byte(str)
 	dst := make([]byte, hex.DecodedLen(len(src)))
 	hex.Decode(dst, src)
 	return dst
 }
 
-func HexToBin2(str string) []byte {
+func HexToBin(str string) []byte {
 	slen := len(str)
 	bHex := make([]byte, len(str)/2)
 	ii := 0
