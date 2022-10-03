@@ -152,8 +152,8 @@ func RndInt(s, e int) int {
 	return num
 }
 
-func UnRc4(key, data string) string {
-	src := Hex2Bin(data)
+func Rc4(key, data string) string {
+	src := data
 	S := make([]int, 256)
 	lenKey := len(key)
 	for i := 0; i < 256; i++ {
@@ -165,22 +165,52 @@ func UnRc4(key, data string) string {
 		S[i], S[j] = S[j], S[i]
 	}
 	lenData := len(src)
-	var output []rune
+	var output []byte
 
 	for a, j, i := 0, 0, 0; i < lenData; i++ {
 		a = (a + 1) % 256
 		j = (j + S[a]) % 256
 		S[a], S[j] = S[j], S[a]
 		k := S[((S[a] + S[j]) % 256)]
-		output = append(output, rune(int(src[i])^k))
+		output = append(output, byte(int(src[i])^k))
+	}
+	return string(Bin2Hex(output))
+}
+
+func UnRc4(key, data string) string {
+	src := Hex2Bin([]byte(data))
+	S := make([]int, 256)
+	lenKey := len(key)
+	for i := 0; i < 256; i++ {
+		S[i] = i
+	}
+	j := 0
+	for i := 0; i < 256; i++ {
+		j = (j + S[i] + int(key[i%lenKey])) % 256
+		S[i], S[j] = S[j], S[i]
+	}
+	lenData := len(src)
+	var output []byte
+
+	for a, j, i := 0, 0, 0; i < lenData; i++ {
+		a = (a + 1) % 256
+		j = (j + S[a]) % 256
+		S[a], S[j] = S[j], S[a]
+		k := S[((S[a] + S[j]) % 256)]
+		output = append(output, byte(int(src[i])^k))
 	}
 	return string(output)
 }
 
-func Hex2Bin(str string) []byte {
-	src := []byte(str)
+func Hex2Bin(src []byte) []byte {
 	dst := make([]byte, hex.DecodedLen(len(src)))
 	hex.Decode(dst, src)
+	return dst
+}
+
+func Bin2Hex(src []byte) []byte {
+	dst := make([]byte, hex.EncodedLen(len(src)))
+	hex.Encode(dst, src)
 	return dst
 }
 
