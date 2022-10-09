@@ -229,3 +229,29 @@ func HexToBin(str string) []byte {
 	}
 	return bHex
 }
+
+// CreateDir 创建多级目录 调用os.MkdirAll递归创建文件夹
+func CreateDir(dirPath string) error {
+	if !FileExist(dirPath) {
+		err := os.MkdirAll(dirPath, os.ModePerm)
+		if err != nil {
+			fmt.Println("文件夹("+dirPath+")创建失败,error info:", err)
+			return err
+		}
+		return err
+	}
+	return nil
+}
+
+// CreateFile 创建文件
+func CreateFile(filePath string) {
+	if !FileExist(filePath) {
+		//创建文件
+		f, err := os.Create(filePath)
+		//判断是否出错
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer f.Close()
+	}
+}

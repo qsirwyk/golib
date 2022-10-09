@@ -15,10 +15,10 @@ func init() {
 }
 
 func main() {
-	//testColor()
+	testColor()
 	//testTrace()
 	//util.BlockMain()
-	testErr()
+	//testErr()
 	//testClear()
 }
 
@@ -96,4 +96,6 @@ func testColor() {
 	// tips message
 	color.Info.Tips("tips style message")
 	color.Warn.Tips("tips style message")
+
+	color.Style{color.FgLightMagenta, color.OpBold}.Println("custom color style")
 }
