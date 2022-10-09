@@ -2,6 +2,7 @@ package util
 
 import (
 	"bytes"
+	"crypto/md5"
 	"encoding/hex"
 	"fmt"
 	"github.com/gookit/color"
@@ -13,6 +14,7 @@ import (
 	"path"
 	"runtime"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -254,4 +256,14 @@ func CreateFile(filePath string) {
 		}
 		defer f.Close()
 	}
+}
+
+// Md5 返回一个32位md5加密后的字符串
+func Md5(str string, upper bool) string {
+	h := md5.New()
+	h.Write([]byte(str))
+	if upper {
+		return strings.ToUpper(hex.EncodeToString(h.Sum(nil)))
+	}
+	return hex.EncodeToString(h.Sum(nil))
 }
