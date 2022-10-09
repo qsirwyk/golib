@@ -8,10 +8,12 @@ import (
 	"github.com/gookit/color"
 	"log"
 	"math/rand"
+	"net"
 	"os"
 	"os/exec"
 	"os/signal"
 	"path"
+	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -266,4 +268,30 @@ func Md5(str string, upper bool) string {
 		return strings.ToUpper(hex.EncodeToString(h.Sum(nil)))
 	}
 	return hex.EncodeToString(h.Sum(nil))
+}
+
+// GetMac 获取物理网卡MAC
+func GetMac() string {
+	// 获取本机的MAC地址
+	interfaces, err := net.Interfaces()
+	if err != nil {
+		panic("获取物理网卡失败:" + err.Error())
+	}
+	inter := interfaces[0]
+	mac := inter.HardwareAddr.String() //获取本机MAC地址
+	return mac
+}
+
+// GetCpuId 获取CPUID
+func GetCpuId() string {
+	cmd := exec.Command("wmic", "cpu", "get", "ProcessorID")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println(err)
+	}
+	str := string(out)
+	//匹配一个或多个空白符的正则表达式
+	reg := regexp.MustCompile("\\s+")
+	str = reg.ReplaceAllString(str, "")
+	return str[11:]
 }
