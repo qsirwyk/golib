@@ -17,7 +17,9 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
+	"unsafe"
 )
 
 func init() {
@@ -294,4 +296,22 @@ func GetCpuId() string {
 	reg := regexp.MustCompile("\\s+")
 	str = reg.ReplaceAllString(str, "")
 	return str[11:]
+}
+
+var (
+	winmm         = syscall.MustLoadDLL("winmm.dll")
+	mciSendString = winmm.MustFindProc("mciSendStringW")
+)
+
+func MCIWorker(lpstrCommand string) uintptr {
+	var lpstrReturnString string
+	var uReturnLength int
+	var hwndCallback int
+	i, _, _ := mciSendString.Call(
+		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(lpstrCommand))),
+		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(lpstrReturnString))),
+		uintptr(uReturnLength),
+		uintptr(hwndCallback),
+	)
+	return i
 }
