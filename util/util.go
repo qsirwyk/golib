@@ -350,3 +350,10 @@ func PlayMedia(path string) {
 	MCIWorker("play music wait")
 	MCIWorker("close music")
 }
+
+func BGRToRGB(color string) string {
+	B := color[0:2]
+	G := color[2:4]
+	R := color[4:6]
+	return R + G + B
+}
