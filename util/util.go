@@ -315,3 +315,31 @@ func MCIWorker(lpstrCommand string) uintptr {
 	)
 	return i
 }
+
+// CmpVer 版本比较
+func CmpVer(oldver, newver string) bool {
+	arr1 := strings.Split(oldver, ".")
+	arr2 := strings.Split(newver, ".")
+	l1 := len(arr1)
+	l2 := len(arr2)
+	var n int
+	if l1 > l2 {
+		for i := 0; i < l1-l2; i++ {
+			arr2 = append(arr2, "0")
+		}
+		n = l1
+	} else {
+		for i := 0; i < l2-l1; i++ {
+			arr1 = append(arr1, "0")
+		}
+		n = l2
+	}
+	flagUpdate := false
+	for i := 0; i < n; i++ {
+		if arr1[i] < arr2[i] {
+			flagUpdate = true
+			break
+		}
+	}
+	return flagUpdate
+}
