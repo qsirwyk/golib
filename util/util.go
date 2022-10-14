@@ -343,3 +343,10 @@ func CmpVer(oldver, newver string) bool {
 	}
 	return flagUpdate
 }
+
+// PlayMedia 播放提示音
+func PlayMedia(path string) {
+	MCIWorker("open " + path + " alias music")
+	MCIWorker("play music wait")
+	MCIWorker("close music")
+}
